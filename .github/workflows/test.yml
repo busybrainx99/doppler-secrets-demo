@@ -16,7 +16,7 @@ jobs:
         run: curl -sLf --retry 3 https://downloads.doppler.com/install.sh | sh
 
       - name: Inject secrets from Doppler
-        run: doppler secrets download --no-file --format env >> $GITHUB_ENV
+        run: doppler secrets download doppler-secrets-demo --config dev --no-file --format env >> $GITHUB_ENV
         env:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
 

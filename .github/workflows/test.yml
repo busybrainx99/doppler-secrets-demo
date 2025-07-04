@@ -1,14 +1,13 @@
 name: Deploy with Doppler Secrets
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4 # Updated to latest version for better compatibility
       - name: Install Doppler CLI
-        run: curl -Ls https://cli.doppler.com/install.sh | sh
+        run: curl -sLf --retry 3 https://downloads.doppler.com/install.sh | sh
       - name: Fetch and Verify Doppler Secrets
         env:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}

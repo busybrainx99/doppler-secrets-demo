@@ -7,15 +7,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Doppler CLI
-        run: |
-          # Install Doppler CLI
-          curl -sLf --retry 3 https://downloads.doppler.com/install.sh | sh
-          # Add Doppler CLI to PATH
-          echo "$HOME/.doppler/bin" >> $GITHUB_PATH
+        uses: dopplerhq/cli-action@v3
       - name: Verify Doppler CLI Installation
-        run: |
-          # Confirm Doppler CLI is available
-          doppler --version
+        run: doppler --version
       - name: Fetch and Verify Doppler Secrets
         env:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
@@ -29,5 +23,7 @@ jobs:
         env:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
         run: |
+          # Ensure Node.js is available
+          node --version
           # Run a Node.js command to mimic app behavior
           doppler run -- node -e "console.log('API_KEY from app environment ending in: ' + process.env.API_KEY.slice(-4))"

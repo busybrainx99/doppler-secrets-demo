@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Doppler Secrets Demo</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        background-color: #f5f7fa;
+        color: #333;
+        max-width: 600px;
+        margin: 50px auto;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      }
+
+      h1 {
+        color: #2b6cb0;
+        text-align: center;
+      }
+
+      form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 30px;
+      }
+
+      input {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+      }
+
+      button {
+        padding: 10px;
+        background-color: #2b6cb0;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #1a4d8f;
+      }
+
+      footer {
+        margin-top: 40px;
+        text-align: center;
+        font-size: 0.9em;
+        color: #777;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Doppler Secrets Demo</h1>
+    <p>
+      Fill out the form below to simulate a secure signup powered by
+      Doppler-managed secrets.
+    </p>
+
+    <form method="POST" action="/signup">
+      <input type="text" name="name" placeholder="Your Name" required />
+      <input type="email" name="email" placeholder="Your Email" required />
+      <button type="submit">Sign Up</button>
+    </form>
+
+    <footer>Powered by Doppler</footer>
+  </body>
+</html>

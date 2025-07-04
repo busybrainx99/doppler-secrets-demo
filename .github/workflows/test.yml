@@ -5,15 +5,29 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 # Updated to latest version for better compatibility
+      - uses: actions/checkout@v4
       - name: Install Doppler CLI
-        run: curl -sLf --retry 3 https://downloads.doppler.com/install.sh | sh
+        run: |
+          # Install Doppler CLI
+          curl -sLf --retry 3 https://downloads.doppler.com/install.sh | sh
+          # Add Doppler CLI to PATH
+          echo "$HOME/.doppler/bin" >> $GITHUB_PATH
+      - name: Verify Doppler CLI Installation
+        run: |
+          # Confirm Doppler CLI is available
+          doppler --version
       - name: Fetch and Verify Doppler Secrets
         env:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
         run: |
-          # Run a command with Doppler to inject secrets and capture API_KEY
+          # Fetch API_KEY using Doppler CLI
           API_KEY=$(doppler secrets get API_KEY --plain)
-          # Extract last 4 digits of API_KEY
+          # Log last 4 digits to verify injection
           LAST_FOUR=${API_KEY: -4}
           echo "Doppler injected API_KEY ending in: $LAST_FOUR"
+      - name: Simulate App Secret Usage
+        env:
+          DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
+        run: |
+          # Run a Node.js command to mimic app behavior
+          doppler run -- node -e "console.log('API_KEY from app environment ending in: ' + process.env.API_KEY.slice(-4))"

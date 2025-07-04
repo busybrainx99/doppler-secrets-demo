@@ -1,25 +1,20 @@
-name: Doppler Cloud Test
-
+name: Deploy with Doppler Secrets
 on:
-  workflow_dispatch:
-
-
+  push:
+    branches: [main]
 jobs:
-  test-doppler:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
+      - uses: actions/checkout@v4 # Updated to latest version for better compatibility
       - name: Install Doppler CLI
-        run: curl -sLf --retry 3 https://downloads.doppler.com/install.sh | sh
-
-      - name: Inject secrets from Doppler
-        run: doppler secrets download doppler-secrets-demo --config dev --no-file --format env >> $GITHUB_ENV
+        run: curl -Ls https://cli.doppler.com/install.sh | sh
+      - name: Fetch and Verify Doppler Secrets
         env:
           DOPPLER_TOKEN: ${{ secrets.DOPPLER_TOKEN }}
-
-      - name: Simulate app logic
         run: |
-          echo "Using API key ending in: ${API_KEY: -4}"
+          # Run a command with Doppler to inject secrets and capture API_KEY
+          API_KEY=$(doppler secrets get API_KEY --plain)
+          # Extract last 4 digits of API_KEY
+          LAST_FOUR=${API_KEY: -4}
+          echo "Doppler injected API_KEY ending in: $LAST_FOUR"

@@ -1,6 +1,8 @@
 name: Doppler Cloud Test
 
-on: [push]
+on:
+  workflow_dispatch:
+
 
 jobs:
   test-doppler:
